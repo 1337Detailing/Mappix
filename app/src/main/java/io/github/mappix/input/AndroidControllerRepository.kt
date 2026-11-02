@@ -38,7 +38,7 @@ class AndroidControllerRepository @Inject constructor(@ApplicationContext contex
     override fun publish(event: ControllerEvent) { _events.tryEmit(event) }
 
     private fun refresh() {
-        _controllers.value = manager.inputDeviceIds.mapNotNull { id ->
+        _controllers.value = manager.inputDeviceIds.toList().mapNotNull { id ->
             val device = manager.getInputDevice(id) ?: return@mapNotNull null
             if (!device.isController()) return@mapNotNull null
             ControllerInfo(id, device.name ?: "Gamepad", device.vendorId, device.productId, device.sources)
